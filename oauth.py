@@ -67,7 +67,7 @@ class FacebookSignIn(OAuthSignIn):
             me.get('email')
         )
 
-
+'''
 class TwitterSignIn(OAuthSignIn):
     def __init__(self):
         super(TwitterSignIn, self).__init__('twitter')
@@ -101,3 +101,4 @@ class TwitterSignIn(OAuthSignIn):
         social_id = 'twitter$' + str(me.get('id'))
         username = me.get('screen_name')
         return social_id, username, None   # Twitter does not provide email
+'''

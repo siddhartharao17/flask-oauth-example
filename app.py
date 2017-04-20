@@ -7,18 +7,19 @@ from oauth import OAuthSignIn
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top secret!'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:_Fedora25@localhost/testdb'
 app.config['OAUTH_CREDENTIALS'] = {
     'facebook': {
-        #'id': '470154729788964',
+
         'id': '277308882695364',
         'secret': '949643620832ced50226022166416435'
-        #'secret': '010cc08bd4f51e34f3f3e684fbdea8a7'
-    },
-    'twitter': {
-        'id': '3RzWQclolxWZIMq5LJqzRZPTl',
-        'secret': 'm9TEd58DSEtRrZHpz2EjrV9AhsBRxKMo8m3kuIZj3zLwzwIimt'
+
     }
+#  'twitter': {
+ #       'id': '3RzWQclolxWZIMq5LJqzRZPTl',
+  #      'secret': 'm9TEd58DSEtRrZHpz2EjrV9AhsBRxKMo8m3kuIZj3zLwzwIimt'
+   # }
 }
 
 db = SQLAlchemy(app)
@@ -40,6 +41,7 @@ def load_user(id):
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template('index.html')
 
@@ -70,6 +72,7 @@ def oauth_callback(provider):
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
         user = User(social_id=social_id, nickname=username, email=email)
+        #print username, social_id
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
